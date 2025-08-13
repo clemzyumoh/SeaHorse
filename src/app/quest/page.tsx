@@ -24,7 +24,7 @@ export default function Quest() {
 
   const [gameInstance, setGameInstance] = useState<Game | undefined>();
   useEffect(() => {
-    // Check for game instance periodically
+    
     const interval = setInterval(() => {
       if (noviceRef.current?.getGameInstance()) {
         setGameInstance(noviceRef.current.getGameInstance());

@@ -5,6 +5,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 
 import Sidebar from "./SideBar";
@@ -45,9 +46,24 @@ export default function LayoutWrapper({
 
   // Added loading state
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0B091A]">
-        <p>SeaHorse Saga Loading...</p>
+
+       return (
+      <div className="flex items-center justify-center h-screen bg-[#0B091A] text-white">
+        <div className="relative">
+          <div className="w-46 h-46 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-end">
+              <Image
+                src="/assets/play1.png"
+                alt="logo"
+                width={48}
+                height={48}
+                className="object-cover"
+              />
+          
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
