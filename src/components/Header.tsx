@@ -25,11 +25,11 @@ const Header = () => {
 
   
 const badgeImages: { [key: string]: string } = {
-  Novice: "/assets/badge5.png",
-  Seeker: "/assets/badge4.png",
-  Voyager: "/assets/badge3.png",
-  Expert: "/assets/badge2.png",
-  Master: "/assets/badge1.png",
+  Novice: "/assets/Badge5.png",
+  Seeker: "/assets/Badge4.png",
+  Voyager: "/assets/Badge3.png",
+  Expert: "/assets/Badge2.png",
+  Master: "/assets/Badge1.png",
 };
 
 const getBadgeLevel = (level?: string): string => {

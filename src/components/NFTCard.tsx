@@ -17,15 +17,15 @@ const getLevelBadge = (level?: number) => {
   if (!level) return "/asset/badge5.png";
 
   const badgeImages: { [key: string]: string } = {
-    level1: "/assets/badge5.png", // Novice
-    level2: "/assets/badge4.png", // Seeker
-    level3: "/assets/badge3.png", // Voyager
-    level4: "/assets/badge2.png", // Expert
-    level5: "/assets/badge1.png", // Master
+    level1: "/assets/Badge5.png", // Novice
+    level2: "/assets/Badge4.png", // Seeker
+    level3: "/assets/Badge3.png", // Voyager
+    level4: "/assets/Badge2.png", // Expert
+    level5: "/assets/Badge1.png", // Master
   };
 
   const badgeLevel = `level${Math.min(level, 5)}`; // Cap at level 5
-  return badgeImages[badgeLevel] || "/assets/badge5.png";
+  return badgeImages[badgeLevel] || "/assets/Badge5.png";
 };
 
 export default function NFTCard({
