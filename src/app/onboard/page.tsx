@@ -55,9 +55,9 @@ const handleConnect = async () => {
       // Listen for connection events
       await new Promise<void>(async (resolve, reject) => {
         // Timeout after 30 seconds
-        const timeout = setTimeout(() => {
-          reject(new Error("Connection timed out"));
-        }, 30000);
+        // const timeout = setTimeout(() => {
+        //   reject(new Error("Connection timed out"));
+        // }, 30000);
 
         try {
           await connect();
@@ -65,13 +65,13 @@ const handleConnect = async () => {
           // Check periodically for publicKey
           const checkInterval = setInterval(() => {
             if (publicKey) {
-              clearTimeout(timeout);
+             // clearTimeout(timeout);
               clearInterval(checkInterval);
               resolve();
             }
           }, 100);
         } catch (err) {
-          clearTimeout(timeout);
+          //clearTimeout(timeout);
           reject(err);
         }
       });
@@ -125,6 +125,7 @@ const handleConnect = async () => {
         <Image
           src="/assets/onboard.png"
           alt="Seahorse"
+        
           fill
           className="object-cover opacity-90"
         />

@@ -1,7 +1,7 @@
 "use client"
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 interface Profile {
@@ -24,7 +24,7 @@ export function useProfiles() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-      const fetchProfiles = async () => {
+      const fetchProfiles = useCallback( async () => {
         try {
           setLoading(true);
           setError(null);
@@ -86,26 +86,38 @@ export function useProfiles() {
         (p) => p.identity === publicKey?.toBase58()
       );
       setUserProfile(user || null);
-          setUserProfile(user || null);
+          //setUserProfile(user || null);
         } catch (err: any) {
           console.error("Error fetching profiles:", err);
           setError(err.message || "Failed to fetch profiles");
         } finally {
           setLoading(false);
         }
-      };
-  useEffect(() => {
-    if (!publicKey || !connected) {
-      setProfiles([]);
-      setUserProfile(null);
-      setLoading(false);
-      return;
-    }
+      }, [publicKey, connected])
+  
+useEffect(() => {
+  if (!publicKey || !connected) {
+    setProfiles([]);
+    setUserProfile(null);
+    setLoading(false);
+    return;
+  }
+  fetchProfiles();
+}, [publicKey, connected, fetchProfiles]);
+
+
+  // useEffect(() => {
+  //   if (!publicKey || !connected) {
+  //     setProfiles([]);
+  //     setUserProfile(null);
+  //     setLoading(false);
+  //     return;
+  //   }
 
   
 
-    fetchProfiles();
-  }, [publicKey, connected, fetchProfiles]);
+  //   fetchProfiles();
+  // }, [publicKey, connected, fetchProfiles]);
 
   return { profiles, userProfile, loading, error, refetch: fetchProfiles };
 }

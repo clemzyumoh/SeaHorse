@@ -147,7 +147,7 @@ const getBadgeImage = (level?: string): string => {
                       width={40}
                       height={40}
                       className="w-full h-full rounded-full object-cover"
-                      unoptimized
+                      
                     />
                   </div>
                 </div>
@@ -204,7 +204,7 @@ const getBadgeImage = (level?: string): string => {
                     width={40}
                     height={40}
                     className="w-full h-full rounded-full object-cover"
-                    unoptimized
+                  
                   />
                 </div>
               </div>

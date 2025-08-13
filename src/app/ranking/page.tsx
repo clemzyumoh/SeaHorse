@@ -111,9 +111,12 @@ const handleViewAll = () => {
                       ? "opacity-100"
                       : "opacity-30"
                   }`}>
-                  <img
+                
+                  <Image
                     src={badgeImages[badge]}
                     alt={badge}
+                    width={300}
+                    height={300}
                     className="md:w-20 md:h-20 w-10 h-10 object-contain"
                   />
                   <span className="text-xs font-bold mt-1">{badge}</span>
@@ -151,7 +154,7 @@ const handleViewAll = () => {
                         width={32}
                         height={32}
                         className="rounded-full"
-                        unoptimized
+                      
                       />
                       <span>{user.username}</span>
                     </div>
@@ -183,7 +186,7 @@ const handleViewAll = () => {
             width={80}
             height={80}
             className="w-full h-full shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] rounded-full mb-4"
-            unoptimized
+            
           />
           <input
             type="text"

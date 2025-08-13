@@ -54,13 +54,16 @@ export default function NFTCard({
         <p className="font-semibold">
           {nft.price} {nft.currency}
         </p>
-      
+
         {nft.requiredLevel && (
           <div className="flex items-center gap-1">
-            <img
+        
+            <Image
               src={getLevelBadge(nft.requiredLevel)}
               alt={`Level ${nft.requiredLevel}`}
               className="w-5 h-5"
+              width={300}
+              height={300}
             />
             <span className="text-xs text-gray-400">
               Level {nft.requiredLevel}+{nft.xpReward}XP
@@ -74,7 +77,6 @@ export default function NFTCard({
         }`}
         onClick={() => onBuyClick(nft)}
         disabled={disabled || purchased}>
-
         {purchased
           ? "Owned"
           : disabled

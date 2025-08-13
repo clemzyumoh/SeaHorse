@@ -235,106 +235,111 @@ export default function MissionPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {activeTab === "mission"
             ? missions.map((mission, index) => {
-              const isUnlocked = isLevelUnlocked(mission, index);
-              const isCurrent = userProfile?.level === mission.level;
-              const progress = mission.requiredXP
-                ? Math.min(
-                  ((userProfile?.xp ?? 0) / mission.requiredXP) * 100,
-                  100
-                )
-                : 100;
-              return (
-                <div
-                  key={mission.id}
-                  className={`relative bg-gray-950 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] p-4 rounded-xl transition ${!isUnlocked ? "opacity-50" : "hover:shadow-lg"
+                const isUnlocked = isLevelUnlocked(mission, index);
+                const isCurrent = userProfile?.level === mission.level;
+                const progress = mission.requiredXP
+                  ? Math.min(
+                      ((userProfile?.xp ?? 0) / mission.requiredXP) * 100,
+                      100
+                    )
+                  : 100;
+                return (
+                  <div
+                    key={mission.id}
+                    className={`relative bg-gray-950 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] p-4 rounded-xl transition ${
+                      !isUnlocked ? "opacity-50" : "hover:shadow-lg"
                     }`}>
-                  <img
-                    src={mission.image}
-                    alt={mission.title}
-                    className="w-full object-cover rounded-md mb-3"
-                  />
-                  <h3 className="text-lg font-bold mb-1">{mission.title}</h3>
-                  <p className="text-sm text-gray-400 mb-3">
-                    {mission.description}
-                  </p>
-                  <p className="text-sm text-gray-400 mb-3">
-                    {mission.requiredXP} XP
-                  </p>
-                  <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
-                    <div
-                      className="bg-yellow-400 h-2 rounded-full"
-                      style={{ width: `${progress}%` }}
+                    <Image
+                      src={mission.image}
+                      alt={mission.title}
+                      width={300}
+                      height={300}
+                      className="w-full object-cover rounded-md mb-3"
                     />
-                  </div>
-                  {isUnlocked ? (
-                    <button
-                      onClick={() => handleClick(mission.level)}
-                      className="bg-yellow-400 text-[#040f4c] font-bold cursor-pointer px-4 py-1 rounded my-3 hover:bg-yellow-500 text-sm">
-                      {isCurrent ? "Continue" : "Play"}
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-gray-600 text-white px-4 py-1 rounded text-sm cursor-not-allowed"
-                      disabled>
-                      Locked
-                    </button>
-                  )}
-                </div>
-              );
-            })
-            : activeTab === "nft" && (
-              
-              <>
-                {purchasedNFTsOnly.length > 0 ? (
-                  purchasedNFTsOnly.map((nft) => (
-                    <div
-                      key={nft.id}
-                      className="bg-gray-950 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] rounded-xl p-4 flex flex-col"
-                    >
-                      <div className="w-full flex items-center justify-center aspect-square overflow-hidden rounded-md mb-3">
-                        <img
-                          src={nft.image}
-                          alt={nft.name}
-                          className="w-[70%] h-[100%]  object-cover"
-                        />
-                      </div>
-                      <h3 className="text-lg font-bold">{nft.name}</h3>
-                      <div className="flex items-center justify-between mt-2">
-                        <div className="shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] text-xs px-3 py-2 rounded-md">
-                          OWNED
-                        </div>
-                        <div>
-                          {nft.currency} <strong>{nft.price}</strong>
-                        </div>
-                      </div>
-                      <div className="mt-3 space-y-1">
-                        {userProfile?.nfts?.map((nftAddress) => (
-                          <div key={nftAddress} className="flex items-center gap-1">
-                            NFT: {shortenAddress(nftAddress)}
-                            <IoCopy
-                              className="cursor-pointer hover:text-gray-400"
-                              onClick={() => navigator.clipboard.writeText(nftAddress)}
-                              
-                            />
-                          </div>
-                        ))}
-                      </div>
+                    <h3 className="text-lg font-bold mb-1">{mission.title}</h3>
+                    <p className="text-sm text-gray-400 mb-3">
+                      {mission.description}
+                    </p>
+                    <p className="text-sm text-gray-400 mb-3">
+                      {mission.requiredXP} XP
+                    </p>
+                    <div className="w-full bg-gray-700 rounded-full h-2 mb-3">
+                      <div
+                        className="bg-yellow-400 h-2 rounded-full"
+                        style={{ width: `${progress}%` }}
+                      />
                     </div>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-10">
-                    <p>You have not purchased any NFTs yet</p>
-                    <button
-                      onClick={() => setActiveTab("mission")}
-                      className="mt-4 bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition"
-                    >
-                      Complete missions to unlock NFTs
-                    </button>
+                    {isUnlocked ? (
+                      <button
+                        onClick={() => handleClick(mission.level)}
+                        className="bg-yellow-400 text-[#040f4c] font-bold cursor-pointer px-4 py-1 rounded my-3 hover:bg-yellow-500 text-sm">
+                        {isCurrent ? "Continue" : "Play"}
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-gray-600 text-white px-4 py-1 rounded text-sm cursor-not-allowed"
+                        disabled>
+                        Locked
+                      </button>
+                    )}
                   </div>
-                )}
-              </>
-            )}
-              
+                );
+              })
+            : activeTab === "nft" && (
+                <>
+                  {purchasedNFTsOnly.length > 0 ? (
+                    purchasedNFTsOnly.map((nft) => (
+                      <div
+                        key={nft.id}
+                        className="bg-gray-950 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] rounded-xl p-4 flex flex-col">
+                        <div className="w-full flex items-center justify-center aspect-square overflow-hidden rounded-md mb-3">
+                       
+                          <Image
+                            src={nft.image}
+                            alt={nft.name}
+                            width={300}
+                            height={300}
+                            className="w-[70%] h-[100%]  object-cover"
+                          />
+                        </div>
+                        <h3 className="text-lg font-bold">{nft.name}</h3>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] text-xs px-3 py-2 rounded-md">
+                            OWNED
+                          </div>
+                          <div>
+                            {nft.currency} <strong>{nft.price}</strong>
+                          </div>
+                        </div>
+                        <div className="mt-3 space-y-1">
+                          {userProfile?.nfts?.map((nftAddress) => (
+                            <div
+                              key={nftAddress}
+                              className="flex items-center gap-1">
+                              NFT: {shortenAddress(nftAddress)}
+                              <IoCopy
+                                className="cursor-pointer hover:text-gray-400"
+                                onClick={() =>
+                                  navigator.clipboard.writeText(nftAddress)
+                                }
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-10">
+                      <p>You have not purchased any NFTs yet</p>
+                      <button
+                        onClick={() => setActiveTab("mission")}
+                        className="mt-4 bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition">
+                        Complete missions to unlock NFTs
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
         </div>
       </div>
     </div>
