@@ -19,13 +19,13 @@ async function connectDB() {
     console.log("MongoDB connected");
   }
 }
-import cron from "node-cron";
+
 
 
 //cron.schedule("0 0 * * *",); // runs every day at midnight
 
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   await connectDB();
 
   try {

@@ -78,19 +78,22 @@ export async function POST(req: NextRequest) {
     }
 
     // Create transaction
-    const { createUpdatePlatformDataTransaction: profileTx } = await client.createUpdatePlatformDataTransaction(
-      {
-        profile: profileAddress,
-        authority: adminKeypair.publicKey.toString(),
-        platformData: {
-          addXp: parseInt(xp) as any,
-          custom: { add: customAdd },
+    const { createUpdatePlatformDataTransaction: profileTx } =
+      await client.createUpdatePlatformDataTransaction(
+        {
+          profile: profileAddress,
+          authority: adminKeypair.publicKey.toString(),
+          platformData: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+            addXp: parseInt(xp) as any,
+            custom: { add: customAdd },
+          },
         },
-      },
-      {
-        fetchOptions: { headers: { authorization: `Bearer ${accessToken}` } },
-      }
-    );
+        {
+          fetchOptions: { headers: { authorization: `Bearer ${accessToken}` } },
+        }
+      );
 
     // Send transaction
     const response = await sendTransactions(

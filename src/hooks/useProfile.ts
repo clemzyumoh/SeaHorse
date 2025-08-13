@@ -48,7 +48,9 @@ export function useProfiles() {
           const data = await res.json();
 
           const allProfiles: Profile[] = (data?.profilearry || []).map(
-            (profile: any) => ({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+            (profile:any) => ({
               identity: profile.identity,
               username: profile.info.name,
               xp: parseInt(profile.platformData.xp, 10) || 0,
@@ -103,7 +105,7 @@ export function useProfiles() {
   
 
     fetchProfiles();
-  }, [publicKey, connected]);
+  }, [publicKey, connected, fetchProfiles]);
 
   return { profiles, userProfile, loading, error, refetch: fetchProfiles };
 }

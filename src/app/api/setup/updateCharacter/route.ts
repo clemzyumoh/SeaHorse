@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     const adminPrivateKey = process.env.ADMIN_PRIVATE_KEY || "";
     const adminKeypair = Keypair.fromSecretKey(bs58.decode(adminPrivateKey));
-    const accessToken = process.env.HONEYCOMB_ACCESS_TOKEN || "";
+   // const accessToken = process.env.HONEYCOMB_ACCESS_TOKEN || "";
 
     const client = createEdgeClient(
       "https://edge.test.honeycombprotocol.com",
@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
               characterModel: characterModelAddress,
           
           attributes: [
-            ["Level", `${level}`] as any,
-            ["XP", `${updatedXP}`] as any,
+            ["Level", `${level}`] ,
+            ["XP", `${updatedXP}`] ,
           ],
         }
         // {

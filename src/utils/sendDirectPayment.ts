@@ -27,6 +27,7 @@ export const sendDirectPayment = async ({
   memo,
 }: {
   connection: Connection;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wallet: any;
   recipient: string;
   amount: number;
@@ -63,21 +64,35 @@ export const sendDirectPayment = async ({
       transaction.add(
         new TransactionInstruction({
           keys: [],
-          programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+          programId: new PublicKey(
+            "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"
+          ),
           data: Buffer.from(memo),
         })
       );
     }
   } else if (token === "USDC") {
-    const USDC_MINT = new PublicKey("EGcvNycAx1dkZUjm5GBgK5bj2sMNEK3cUhVwKLAXnyU9");
+    const USDC_MINT = new PublicKey(
+      "EGcvNycAx1dkZUjm5GBgK5bj2sMNEK3cUhVwKLAXnyU9"
+    );
     const amountInSmallestUnit = amount * 10 ** 6;
 
-    const senderTokenAccount = await getAssociatedTokenAddress(USDC_MINT, sender);
-    const recipientTokenAccount = await getAssociatedTokenAddress(USDC_MINT, recipientPubkey);
+    const senderTokenAccount = await getAssociatedTokenAddress(
+      USDC_MINT,
+      sender
+    );
+    const recipientTokenAccount = await getAssociatedTokenAddress(
+      USDC_MINT,
+      recipientPubkey
+    );
 
-    const recipientInfo = await connection.getAccountInfo(recipientTokenAccount);
+    const recipientInfo = await connection.getAccountInfo(
+      recipientTokenAccount
+    );
 
-    transaction.add(ComputeBudgetProgram.setComputeUnitLimit({ units: 200_000 }));
+    transaction.add(
+      ComputeBudgetProgram.setComputeUnitLimit({ units: 200_000 })
+    );
 
     if (!recipientInfo) {
       transaction.add(
@@ -111,25 +126,27 @@ export const sendDirectPayment = async ({
       transaction.add(
         new TransactionInstruction({
           keys: [],
-          programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+          programId: new PublicKey(
+            "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"
+          ),
           data: Buffer.from(memo),
         })
       );
     }
-    }
+  }
+
+  try {
+    const signature = await wallet.sendTransaction(transaction, connection);
+    await connection.confirmTransaction(signature, "confirmed");
+    console.log("signature", signature);
+    toast.success("Payment successful!"); // ✅ Add this
+
+     return signature;
+
     
-    try {
-      
-  const signature = await wallet.sendTransaction(transaction, connection);
-  await connection.confirmTransaction(signature, "confirmed");
-        console.log("signature", signature);
-  return signature;
-        
-      toast.success("Payment successful!"); // ✅ Add this
-    } catch (error) {
-      toast.error("Payment failed!");
-    }
+  } catch (error) {
+    toast.error("Payment failed!");
+    console.log("err", error);
 
-
-
+  }
 };

@@ -91,6 +91,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       setConnected(true);
       toast.success("Profile created successfully");
       return true;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error:any) {
       console.error("Onboarding error:", error);
       toast.error(error.message || "Failed to create profile");

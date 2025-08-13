@@ -33,13 +33,7 @@ export default function MissionPage() {
   const { startLevel, fetchCharacterAddress } = useMissionActions();
   //const { publicKey } = useWallet();
   const { purchasedNFTs } = usePurchasedNFTs();
-  const getBadgeImage = (xp: number): string => {
-    if (xp >= 5000) return "/assets/badge1.png";
-    if (xp >= 4000) return "/assets/badge2.png";
-    if (xp >= 3000) return "/assets/badge3.png";
-    if (xp >= 2000) return "/assets/badge4.png";
-    return "/assets/badge5.png";
-  };
+ 
   const { isOnboarded } = useUser();
 
   type MissionLevel = keyof typeof levelConfigs;
@@ -105,7 +99,7 @@ export default function MissionPage() {
   );
  const shortenAddress = (address: string) =>
    `${address.slice(0, 6)}...${address.slice(-4)}`;
-  const isLevelUnlocked = (mission: (typeof missions)[0], index: number) => {
+  const isLevelUnlocked = (mission: (typeof missions)[0], _index: number) => {
   
     if (mission.id === 1) return true;
 
@@ -131,7 +125,7 @@ export default function MissionPage() {
       try {
         const result = await startLevel(level);
         missionAddress = result.missionAddress;
-      } catch (error) {
+      } catch (_error) {
         
         missionAddress = missionData[level]?.missionAddress || "";
       }
@@ -142,7 +136,7 @@ export default function MissionPage() {
         characterAddress, 
       });
       router.push("/quest");
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to initialize mission");
     } finally {
       toast.dismiss(loadingToast); 
@@ -329,7 +323,7 @@ export default function MissionPage() {
                   ))
                 ) : (
                   <div className="col-span-full text-center py-10">
-                    <p>You haven't purchased any NFTs yet</p>
+                    <p>You have not purchased any NFTs yet</p>
                     <button
                       onClick={() => setActiveTab("mission")}
                       className="mt-4 bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition"

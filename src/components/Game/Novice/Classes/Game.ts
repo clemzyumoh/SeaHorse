@@ -279,7 +279,7 @@ export default class Game {
     }
 
   }
-  addExplosion(enemy: any) {
+  addExplosion(enemy: Enemy) {
     const randomised = Math.random();
     if (randomised < 0.5) {
       this.explosions.push(

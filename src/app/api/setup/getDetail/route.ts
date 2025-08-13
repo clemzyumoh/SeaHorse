@@ -7,7 +7,7 @@ import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 
 
-export async function GET(req:NextRequest) {
+export async function GET(_req:NextRequest) {
   try {
     const rpcUrl = "https://edge.test.honeycombprotocol.com";
     const client = createEdgeClient(rpcUrl, true);

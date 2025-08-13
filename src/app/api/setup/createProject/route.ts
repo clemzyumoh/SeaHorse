@@ -6,7 +6,7 @@ import bs58 from "bs58";
 import type { NextRequest } from "next/server";
 import   { sendTransactions }  from "@honeycomb-protocol/edge-client/client/helpers";
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   try {
  
    

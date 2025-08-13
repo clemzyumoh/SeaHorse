@@ -13,15 +13,16 @@ import Game from '@/components/Game/Novice/Classes/Game'
 
 
 export default function Quest() {
-   const { selectedLevel } = useLevel();
-   const noviceRef = useRef<any>(null);
+  const { selectedLevel } = useLevel();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-   const handlePause = () => {
-  noviceRef.current?.pauseGame();
+  const noviceRef = useRef<any>(null);
+
+  const handlePause = () => {
+    noviceRef.current?.pauseGame();
   };
 
-  
-const [gameInstance, setGameInstance] = useState<Game | undefined>();
+  const [gameInstance, setGameInstance] = useState<Game | undefined>();
   useEffect(() => {
     // Check for game instance periodically
     const interval = setInterval(() => {
@@ -38,7 +39,7 @@ const [gameInstance, setGameInstance] = useState<Game | undefined>();
     selectedLevel?.level,
     selectedLevel?.missionAddress,
     selectedLevel?.characterAddress,
-    gameInstance, 
+    gameInstance,
     handlePause
   );
 

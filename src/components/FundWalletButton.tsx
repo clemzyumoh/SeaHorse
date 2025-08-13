@@ -74,6 +74,7 @@ export const FundWalletButton: React.FC<FundWalletButtonProps> = ({
       toast.success("Wallet funded with SOL + USDC");
     } catch (err) {
       toast.error("Failed to fund wallet. Try again later.");
+      console.log("err", err)
     } finally {
       setLoading(false);
     }

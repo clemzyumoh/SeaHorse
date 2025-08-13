@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@honeycomb-protocol/edge-client": "^0.0.7-beta.15",
-    "@metaplex-foundation/umi": "^1.1.1",
+    "@metaplex-foundation/umi": "^1.2.0",
     "@solana-developers/helpers": "^2.8.1",
     "@solana/pay": "^0.2.5",
     "@solana/spl-token": "^0.4.13",
@@ -54,6 +54,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
+    "pino-pretty": "^13.1.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

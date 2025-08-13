@@ -32,7 +32,7 @@ const tokenDoc = await Token.findOne();
     const adminPrivateKey = process.env.ADMIN_PRIVATE_KEY || "";
     const adminKeypair = Keypair.fromSecretKey(bs58.decode(adminPrivateKey));
     const accessToken = token;
-    const projectAddress = process.env.HONEYCOMB_PROJECT_ADDRESS!;
+   // const projectAddress = process.env.HONEYCOMB_PROJECT_ADDRESS!;
 
     const client = createEdgeClient(
       "https://edge.test.honeycombprotocol.com",
@@ -60,6 +60,8 @@ const tokenDoc = await Token.findOne();
           profile: profileAddress,
           authority: adminKeypair.publicKey.toString(),
           platformData: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
             addXp: 0 as any,
             custom: {
               add: [

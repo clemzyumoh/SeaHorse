@@ -45,11 +45,42 @@ export class UI implements Drawable {
     if (this.game.gameOver) {
       context.textAlign = "center";
       context.fillStyle = "black";
-      let gameOverText = "Game Over";
-      let finalScoreText = `Final Score: ${this.game.score}`;
-      let tryAgainText = "try again";
-      let wellDoneText = "Well Done!";
-      let youwinText = "You Win!";
+     const gameOverText = "Game Over";
+    // const finalScoreText = `Final Score: ${this.game.score}`;
+     const tryAgainText = "try again";
+     const wellDoneText = "Well Done!";
+     const youwinText = "You Win!";
+
+      // if (this.game.score >= this.game.XPscore) {
+      //   context.font = `80px ${this.fontFamily}`;
+      //   context.fillText(
+      //     youwinText,
+      //     this.game.width * 0.5,
+      //     this.game.height * 0.5
+      //   );
+      //   this.sound.youWin
+      //   context.font = `40px ${this.fontFamily}`;
+      //   context.fillText(
+      //     wellDoneText,
+      //     this.game.width * 0.5,
+      //     this.game.height * 0.5 + 40
+      //   );
+      // } else {
+      //   context.font = `70px ${this.fontFamily}`;
+      //   context.fillText(
+      //     gameOverText,
+      //     this.game.width * 0.5,
+      //     this.game.height * 0.5
+      //   );
+      //   this.sound.gameOver
+      //   context.font = `40px ${this.fontFamily}`;
+      //   context.fillText(
+      //     tryAgainText,
+      //     this.game.width * 0.5,
+      //     this.game.height * 0.5 + 40
+      //   );
+      // }
+
       if (this.game.score >= this.game.XPscore) {
         context.font = `80px ${this.fontFamily}`;
         context.fillText(
@@ -57,7 +88,7 @@ export class UI implements Drawable {
           this.game.width * 0.5,
           this.game.height * 0.5
         );
-        this.sound.youWin
+        this.sound.youWin.play(); // <-- call the function/method
         context.font = `40px ${this.fontFamily}`;
         context.fillText(
           wellDoneText,
@@ -71,7 +102,7 @@ export class UI implements Drawable {
           this.game.width * 0.5,
           this.game.height * 0.5
         );
-        this.sound.gameOver
+        this.sound.gameOver.play(); // <-- call the function/method
         context.font = `40px ${this.fontFamily}`;
         context.fillText(
           tryAgainText,
@@ -79,6 +110,7 @@ export class UI implements Drawable {
           this.game.height * 0.5 + 40
         );
       }
+
     }
     context.restore();
   }

@@ -1,11 +1,10 @@
 
 
 
-import { Connection, PublicKey } from "@solana/web3.js";
+
 import { createEdgeClient } from "@honeycomb-protocol/edge-client"; // Adjust import based on your setup
 import { NextRequest, NextResponse } from "next/server";
-import bs58 from "bs58";
-import { Keypair } from "@solana/web3.js";
+
 
 
 export async function GET(req:NextRequest) {

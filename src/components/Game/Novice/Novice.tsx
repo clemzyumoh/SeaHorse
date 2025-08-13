@@ -291,5 +291,5 @@ useEffect(() => {
     </main>
   );
 });
-
+Novice.displayName = "SEAHORSE";
 export default Novice;

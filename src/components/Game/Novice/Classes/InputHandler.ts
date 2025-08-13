@@ -85,7 +85,7 @@ export class InputHandler {
 
  
 
-  draw(ctx: CanvasRenderingContext2D) {
-    // Draw UI elements
-  }
+  // draw(ctx: CanvasRenderingContext2D) {
+  //   // Draw UI elements
+  // }
 }
