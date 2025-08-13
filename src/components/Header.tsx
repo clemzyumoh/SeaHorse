@@ -56,7 +56,24 @@ const getBadgeImage = (level?: string): string => {
 
   const [triggerConnect, setTriggerConnect] = useState(false);
 
- 
+
+  
+  const [isLandscape, setIsLandscape] = useState(false);
+  const [mounted, setMounted] = useState(false); // Track client mount
+
+  useEffect(() => {
+    setMounted(true); // mark that we are on client
+
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(orientation: landscape)");
+    setIsLandscape(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsLandscape(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   
   const handleConnect = async () => {
     if (!wallet && wallets.length > 0) {
@@ -147,7 +164,6 @@ const getBadgeImage = (level?: string): string => {
                       width={40}
                       height={40}
                       className="w-full h-full rounded-full object-cover"
-                      
                     />
                   </div>
                 </div>
@@ -175,59 +191,111 @@ const getBadgeImage = (level?: string): string => {
       </div>
 
       {/* 🔹 Mobile Layout */}
-      <div className="lg:hidden flex  w-full justify-between  items-center">
-        {/* Left: Settings Button */}
 
-        <div className="flex  justify-center items-center">
-          <div className="flex items-end-safe justify-items-end-safe">
-            <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
-              SeaHorse
-            </h1>
+      {/* {!(pathname === "/quest" && isLandscape) && (
+        <div className="lg:hidden flex  w-full justify-between  items-center">
+          {/* Left: Settings Button /}
+
+          <div className="flex  justify-center items-center">
+            <div className="flex items-end-safe justify-items-end-safe">
+              <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
+                SeaHorse
+              </h1>
+            </div>
           </div>
-        </div>
 
-        {/* Right: Menu Toggle & Search Icon */}
-        <div className="flex items-center justify-center gap-4">
-          <div className="flex justify-center items-center ">
-            {isOnboarded && userProfile ? (
-              <div className="flex justify-center items-center w-full">
-                
-
-                <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
-                  <Image
-                    src={
-                      userProfile.badges?.length > 0
-                        ? userProfile.badges[userProfile.badges.length - 1]
-                        : getBadgeImage(userProfile.level)
-                    }
-                    alt="Badge"
-                    width={40}
-                    height={40}
-                    className="w-full h-full rounded-full object-cover"
-                  
-                  />
+          {/* Right: Menu Toggle & Search Icon /}
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex justify-center items-center ">
+              {isOnboarded && userProfile ? (
+                <div className="flex justify-center items-center w-full">
+                  <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
+                    <Image
+                      src={
+                        userProfile.badges?.length > 0
+                          ? userProfile.badges[userProfile.badges.length - 1]
+                          : getBadgeImage(userProfile.level)
+                      }
+                      alt="Badge"
+                      width={40}
+                      height={40}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+                  <RxAvatar className="w-full h-full" />
+                </div>
+              )}
+            </div>
+
+            {!connected || !publicKey ? (
+              <button
+                onClick={handleConnect}
+                className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
+                Connect
+              </button>
             ) : (
-              <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
-                <RxAvatar className="w-full h-full" />
+              <div className="flex justify-center gap-3 items-center w-full">
+                <span>{shortenAddressMob(publicKey.toBase58())}</span>
               </div>
             )}
           </div>
-        
-          {!connected || !publicKey ? (
-            <button
-              onClick={handleConnect}
-              className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
-              Connect
-            </button>
-          ) : (
-            <div className="flex justify-center gap-3 items-center w-full">
-              <span>{shortenAddressMob(publicKey.toBase58())}</span>
-            </div>
-          )}
         </div>
-      </div>
+      )} */}
+      {mounted && !(pathname === "/quest" && isLandscape) && (
+        <div className="lg:hidden flex  w-full justify-between  items-center">
+          {/* Left: Settings Button */}
+
+          <div className="flex  justify-center items-center">
+            <div className="flex items-end-safe justify-items-end-safe">
+              <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
+                SeaHorse
+              </h1>
+            </div>
+          </div>
+
+          {/* Right: Menu Toggle & Search Icon */}
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex justify-center items-center ">
+              {isOnboarded && userProfile ? (
+                <div className="flex justify-center items-center w-full">
+                  <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
+                    <Image
+                      src={
+                        userProfile.badges?.length > 0
+                          ? userProfile.badges[userProfile.badges.length - 1]
+                          : getBadgeImage(userProfile.level)
+                      }
+                      alt="Badge"
+                      width={40}
+                      height={40}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+                  <RxAvatar className="w-full h-full" />
+                </div>
+              )}
+            </div>
+
+            {!connected || !publicKey ? (
+              <button
+                onClick={handleConnect}
+                className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
+                Connect
+              </button>
+            ) : (
+              <div className="flex justify-center gap-3 items-center w-full">
+                <span>{shortenAddressMob(publicKey.toBase58())}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };

@@ -146,9 +146,10 @@ const handleViewAll = () => {
                     <div className="flex items-center gap-2">
                       <Image
                         src={
-                          user.badges.length > 0
-                            ? user.badges[user.badges.length - 1]
-                            : getBadgeImage(user.level)
+                          // user.badges.length > 0
+                          //   ? user.badges[user.badges.length - 1]
+                          //   :
+                            getBadgeImage(user.level)
                         }
                         alt={user.username}
                         width={32}
