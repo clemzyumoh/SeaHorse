@@ -223,7 +223,7 @@ useEffect(() => {
   const getInputHandler = () => gameRef.current?.input;
 
   return (
-    <main className="flex flex-col items-center overflow-x-hidden bg-gray-50 justify-center w-full gap-4">
+    <main className="flex flex-col items-center  bg-gray-50 justify-center overflow-hidden px-20 w-full gap-4">
       <div
         id="rotateNotice"
         className="fixed inset-0 z-50 bg-black text-white text-center flex items-center justify-center text-xl md:hidden">
@@ -234,7 +234,7 @@ useEffect(() => {
         id="Canvas1"
         tabIndex={-1}
         onMouseDown={(e) => e.currentTarget.blur()}
-        className="absolute top-0 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] left-0"
+        className="fixed top-0 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] z-20 left-0"
       />
      
       <div className="fixed bottom-5 left-0 w-full flex justify-center z-20">

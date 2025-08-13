@@ -181,7 +181,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         console.error("Check profile error:", error);
-        toast.error("Failed to load profile");
+      //  toast.error("Failed to load profile");
       } finally {
         setIsLoading(false);
       }
@@ -206,7 +206,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Failed to create profile");
+     //   throw new Error(data.error || "Failed to create profile");
       }
 
       setIsOnboarded(true);
@@ -214,7 +214,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       return true;
     } catch (error: any) {
       console.error("Onboarding error:", error);
-      toast.error(error.message || "Failed to create profile");
+//toast.error(error.message || "Failed to create profile");
       return false;
     } finally {
       setIsLoading(false);

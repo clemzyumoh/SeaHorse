@@ -431,6 +431,8 @@ export default function OnboardPage() {
           </AnimatePresence>
         </div>
 
+        
+
         {/* Wallet Connect */}
         <div className="flex justify-center w-full">
           <motion.button

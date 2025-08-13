@@ -118,186 +118,321 @@ const getBadgeImage = (level?: string): string => {
   const shortenAddressMob = (address: string) =>
     `${address.slice(0, 3)}...${address.slice(-3)}`;
 
+  // return (
+  //   <motion.div className="fixed  top-0 lg:left-60  gap-28  right-0 lg:w-[80vw] w-full   overflow-hidden lg:border-none shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] lg:shadow-none  bg-transparent   flex justify-between items-center p-4 z-40 text-white   ">
+  //     {/* 🔹 Laptop Layout */}
+  //     <div className="hidden lg:flex items-center overflow-hidden  justify-center w-[80vw] ">
+  //       <div className="flex justify-center items-center w-[80vw] ">
+  //         {/* Logo / Title */}
+  //         <div className="flex  justify-center w-full   items-center">
+  //           <h1 className="text-3xl font-bold">{currentLabel}</h1>
+  //         </div>
+
+  //         {/* Right Side: Dark Mode Toggle & User Icon */}
+  //         <div className="flex items-center justify-center w-full  space-x-4">
+  //           {/* Search Bar */}
+  //           <div className="flex items-center border-2 border-[#EBF2FD] shadow p-2 max-w-[30vw]   rounded-2xl  ">
+  //             <div className="text-neutral-400 text-xl mr-16">
+  //               <FaSearch className="" />
+  //             </div>
+  //             <input
+  //               type="text"
+  //               placeholder="Search ..."
+  //               className="bg-transparent focus:outline-none w-[80vw] text-neutral-500"
+  //             />
+  //           </div>
+
+  //           <div className="flex items-center justify-between p-4">
+  //             <div className="flex items-center justify-center gap-4"></div>
+  //           </div>
+  //         </div>
+  //         <div className="flex justify-center  w-full items-center gap-4 ">
+  //           <div className="flex justify-center items-center w-ful">
+  //             {isOnboarded && userProfile ? (
+  //               <div className="flex justify-center items-center gap-3 w-full">
+  //                 <span className="text-2xl  bg-gray-950 px-1 rounded">
+  //                   {userProfile.xp || 0} XP
+  //                 </span>
+  //                 <div className="rounded-full w-10 h-10 border-2 border-yellow-400 flex justify-center items-center">
+  //                   <Image
+  //                     src={
+  //                       userProfile.badges?.length > 0
+  //                         ? userProfile.badges[userProfile.badges.length - 1]
+  //                         : getBadgeImage(userProfile.level)
+  //                     }
+  //                     alt="Badge"
+  //                     width={40}
+  //                     height={40}
+  //                     className="w-full h-full rounded-full object-cover"
+  //                   />
+  //                 </div>
+  //               </div>
+  //             ) : (
+  //               <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+  //                 <RxAvatar className="w-full h-full" />
+  //               </div>
+  //             )}
+  //           </div>
+  //           <div className="flex items-center justify-center w-">
+  //             {!connected || !publicKey ? (
+  //               <button
+  //                 onClick={handleConnect}
+  //                 className="cursor-pointer px-3 py-2  rounded-xl from-transparent to-transparent border-2 border-yellow-400 text-yellow-400  ">
+  //                 Connect
+  //               </button>
+  //             ) : (
+  //               <div className="flex justify-center gap-3 items-center w-full">
+  //                 <span>{shortenAddress(publicKey.toBase58())}</span>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+
+  //     {/* 🔹 Mobile Layout */}
+
+  //     {/* {!(pathname === "/quest" && isLandscape) && (
+  //       <div className="lg:hidden flex  w-full justify-between  items-center">
+  //         {/* Left: Settings Button /}
+
+  //         <div className="flex  justify-center items-center">
+  //           <div className="flex items-end-safe justify-items-end-safe">
+  //             <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
+  //               SeaHorse
+  //             </h1>
+  //           </div>
+  //         </div>
+
+  //         {/* Right: Menu Toggle & Search Icon /}
+  //         <div className="flex items-center justify-center gap-4">
+  //           <div className="flex justify-center items-center ">
+  //             {isOnboarded && userProfile ? (
+  //               <div className="flex justify-center items-center w-full">
+  //                 <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
+  //                   <Image
+  //                     src={
+  //                       userProfile.badges?.length > 0
+  //                         ? userProfile.badges[userProfile.badges.length - 1]
+  //                         : getBadgeImage(userProfile.level)
+  //                     }
+  //                     alt="Badge"
+  //                     width={40}
+  //                     height={40}
+  //                     className="w-full h-full rounded-full object-cover"
+  //                   />
+  //                 </div>
+  //               </div>
+  //             ) : (
+  //               <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+  //                 <RxAvatar className="w-full h-full" />
+  //               </div>
+  //             )}
+  //           </div>
+
+  //           {!connected || !publicKey ? (
+  //             <button
+  //               onClick={handleConnect}
+  //               className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
+  //               Connect
+  //             </button>
+  //           ) : (
+  //             <div className="flex justify-center gap-3 items-center w-full">
+  //               <span>{shortenAddressMob(publicKey.toBase58())}</span>
+  //             </div>
+  //           )}
+  //         </div>
+  //       </div>
+  //     )} */}
+  //     {mounted && !(pathname === "/quest" && isLandscape) && (
+  //       <div className="lg:hidden  bg-gray-950  flex  w-full justify-between  items-center">
+  //         {/* Left: Settings Button */}
+
+  //         <div className="flex  justify-center items-center">
+  //           <div className="flex items-end-safe justify-items-end-safe">
+  //             <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
+  //               SeaHorse
+  //             </h1>
+  //           </div>
+  //         </div>
+
+  //         {/* Right: Menu Toggle & Search Icon */}
+  //         <div className="flex items-center justify-center gap-4">
+  //           <div className="flex justify-center items-center ">
+  //             {isOnboarded && userProfile ? (
+  //               <div className="flex justify-center items-center w-full">
+  //                 <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
+  //                   <Image
+  //                     src={
+  //                       userProfile.badges?.length > 0
+  //                         ? userProfile.badges[userProfile.badges.length - 1]
+  //                         : getBadgeImage(userProfile.level)
+  //                     }
+  //                     alt="Badge"
+  //                     width={40}
+  //                     height={40}
+  //                     className="w-full h-full rounded-full object-cover"
+  //                   />
+  //                 </div>
+  //               </div>
+  //             ) : (
+  //               <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+  //                 <RxAvatar className="w-full h-full" />
+  //               </div>
+  //             )}
+  //           </div>
+
+  //           {!connected || !publicKey ? (
+  //             <button
+  //               onClick={handleConnect}
+  //               className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
+  //               Connect
+  //             </button>
+  //           ) : (
+  //             <div className="flex justify-center gap-3 items-center w-full">
+  //               <span>{shortenAddressMob(publicKey.toBase58())}</span>
+  //             </div>
+  //           )}
+  //         </div>
+  //       </div>
+  //     )}
+  //   </motion.div>
+  // );
+
+
+
   return (
-    <motion.div className="fixed  top-0 lg:left-60  gap-28  right-0 lg:w-[80vw] w-full   overflow-hidden lg:border-none shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] lg:shadow-none  lg:bg-transparent   flex justify-between items-center p-4 z-40 text-white   bg-gray-950">
-      {/* 🔹 Laptop Layout */}
-      <div className="hidden lg:flex items-center overflow-hidden  justify-center w-[80vw] ">
-        <div className="flex justify-center items-center w-[80vw] ">
-          {/* Logo / Title */}
-          <div className="flex  justify-center w-full   items-center">
-            <h1 className="text-3xl font-bold">{currentLabel}</h1>
-          </div>
-
-          {/* Right Side: Dark Mode Toggle & User Icon */}
-          <div className="flex items-center justify-center w-full  space-x-4">
-            {/* Search Bar */}
-            <div className="flex items-center border-2 border-[#EBF2FD] shadow p-2 max-w-[30vw]   rounded-2xl  ">
-              <div className="text-neutral-400 text-xl mr-16">
-                <FaSearch className="" />
+    <>
+      {mounted && !(pathname === "/quest" && isLandscape) && (
+        <motion.div className="fixed top-0 lg:left-60 right-0 lg:w-[80vw] w-full bg-gray-950 overflow-hidden lg:border-none shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] lg:shadow-none lg:bg-transparent flex justify-between items-center p-4 z-40 text-white">
+          {/* 🔹 Laptop Layout */}
+          <div className="hidden lg:flex items-center overflow-hidden justify-center w-[80vw]">
+            <div className="flex justify-center items-center w-[80vw]">
+              {/* Logo / Title */}
+              <div className="flex justify-center w-full items-center">
+                <h1 className="text-3xl font-bold">{currentLabel}</h1>
               </div>
-              <input
-                type="text"
-                placeholder="Search ..."
-                className="bg-transparent focus:outline-none w-[80vw] text-neutral-500"
-              />
-            </div>
 
-            <div className="flex items-center justify-between p-4">
-              <div className="flex items-center justify-center gap-4"></div>
+              {/* Right Side: Dark Mode Toggle & User Icon */}
+              <div className="flex items-center justify-center w-full space-x-4">
+                {/* Search Bar */}
+                <div className="flex items-center border-2 border-[#EBF2FD] shadow p-2 max-w-[30vw] rounded-2xl">
+                  <div className="text-neutral-400 text-xl mr-16">
+                    <FaSearch className="" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search ..."
+                    className="bg-transparent focus:outline-none w-[80vw] text-neutral-500"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between p-4">
+                  <div className="flex items-center justify-center gap-4"></div>
+                </div>
+              </div>
+              <div className="flex justify-center w-full items-center gap-4">
+                <div className="flex justify-center items-center w-full">
+                  {isOnboarded && userProfile ? (
+                    <div className="flex justify-center items-center gap-3 w-full">
+                      <span className="text-2xl bg-gray-950 px-1 rounded">
+                        {userProfile.xp || 0} XP
+                      </span>
+                      <div className="rounded-full w-10 h-10 border-2 border-yellow-400 flex justify-center items-center">
+                        <Image
+                          src={
+                            userProfile.badges?.length > 0
+                              ? userProfile.badges[
+                                  userProfile.badges.length - 1
+                                ]
+                              : getBadgeImage(userProfile.level)
+                          }
+                          alt="Badge"
+                          width={40}
+                          height={40}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+                      <RxAvatar className="w-full h-full" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center justify-center">
+                  {!connected || !publicKey ? (
+                    <button
+                      onClick={handleConnect}
+                      className="cursor-pointer px-3 py-2 rounded-xl from-transparent to-transparent border-2 border-yellow-400 text-yellow-400">
+                      Connect
+                    </button>
+                  ) : (
+                    <div className="flex justify-center gap-3 items-center w-full">
+                      <span>{shortenAddress(publicKey.toBase58())}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex justify-center  w-full items-center gap-4 ">
-            <div className="flex justify-center items-center w-ful">
-              {isOnboarded && userProfile ? (
-                <div className="flex justify-center items-center gap-3 w-full">
-                  <span className="text-2xl  bg-gray-950 px-1 rounded">
-                    {userProfile.xp || 0} XP
-                  </span>
-                  <div className="rounded-full w-10 h-10 border-2 border-yellow-400 flex justify-center items-center">
-                    <Image
-                      src={
-                        userProfile.badges?.length > 0
-                          ? userProfile.badges[userProfile.badges.length - 1]
-                          : getBadgeImage(userProfile.level)
-                      }
-                      alt="Badge"
-                      width={40}
-                      height={40}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
-                  <RxAvatar className="w-full h-full" />
-                </div>
-              )}
+
+          {/* 🔹 Mobile Layout */}
+          <div className="lg:hidden flex w-full justify-between items-center">
+            {/* Left: Settings Button */}
+            <div className="flex justify-center items-center">
+              <div className="flex items-end-safe justify-items-end-safe">
+                <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text">
+                  SeaHorse
+                </h1>
+              </div>
             </div>
-            <div className="flex items-center justify-center w-">
+
+            {/* Right: Menu Toggle & Search Icon */}
+            <div className="flex items-center justify-center gap-4">
+              <div className="flex justify-center items-center">
+                {isOnboarded && userProfile ? (
+                  <div className="flex justify-center items-center w-full">
+                    <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
+                      <Image
+                        src={
+                          userProfile.badges?.length > 0
+                            ? userProfile.badges[userProfile.badges.length - 1]
+                            : getBadgeImage(userProfile.level)
+                        }
+                        alt="Badge"
+                        width={40}
+                        height={40}
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
+                    <RxAvatar className="w-full h-full" />
+                  </div>
+                )}
+              </div>
+
               {!connected || !publicKey ? (
                 <button
                   onClick={handleConnect}
-                  className="cursor-pointer px-3 py-2  rounded-xl from-transparent to-transparent border-2 border-yellow-400 text-yellow-400  ">
+                  className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400">
                   Connect
                 </button>
               ) : (
                 <div className="flex justify-center gap-3 items-center w-full">
-                  <span>{shortenAddress(publicKey.toBase58())}</span>
+                  <span>{shortenAddressMob(publicKey.toBase58())}</span>
                 </div>
               )}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* 🔹 Mobile Layout */}
-
-      {/* {!(pathname === "/quest" && isLandscape) && (
-        <div className="lg:hidden flex  w-full justify-between  items-center">
-          {/* Left: Settings Button /}
-
-          <div className="flex  justify-center items-center">
-            <div className="flex items-end-safe justify-items-end-safe">
-              <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
-                SeaHorse
-              </h1>
-            </div>
-          </div>
-
-          {/* Right: Menu Toggle & Search Icon /}
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex justify-center items-center ">
-              {isOnboarded && userProfile ? (
-                <div className="flex justify-center items-center w-full">
-                  <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
-                    <Image
-                      src={
-                        userProfile.badges?.length > 0
-                          ? userProfile.badges[userProfile.badges.length - 1]
-                          : getBadgeImage(userProfile.level)
-                      }
-                      alt="Badge"
-                      width={40}
-                      height={40}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
-                  <RxAvatar className="w-full h-full" />
-                </div>
-              )}
-            </div>
-
-            {!connected || !publicKey ? (
-              <button
-                onClick={handleConnect}
-                className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
-                Connect
-              </button>
-            ) : (
-              <div className="flex justify-center gap-3 items-center w-full">
-                <span>{shortenAddressMob(publicKey.toBase58())}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )} */}
-      {mounted && !(pathname === "/quest" && isLandscape) && (
-        <div className="lg:hidden flex  w-full justify-between  items-center">
-          {/* Left: Settings Button */}
-
-          <div className="flex  justify-center items-center">
-            <div className="flex items-end-safe justify-items-end-safe">
-              <h1 className="font-bold text-2xl bg-gradient-to-br from-[#9945ff] via-yellow-400 to-yellow-400 text-transparent bg-clip-text ">
-                SeaHorse
-              </h1>
-            </div>
-          </div>
-
-          {/* Right: Menu Toggle & Search Icon */}
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex justify-center items-center ">
-              {isOnboarded && userProfile ? (
-                <div className="flex justify-center items-center w-full">
-                  <div className="rounded-full w-10 h-10 ml-2 border-2 border-yellow-400 flex justify-center items-center">
-                    <Image
-                      src={
-                        userProfile.badges?.length > 0
-                          ? userProfile.badges[userProfile.badges.length - 1]
-                          : getBadgeImage(userProfile.level)
-                      }
-                      alt="Badge"
-                      width={40}
-                      height={40}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full flex items-center justify-center dark:bg-gray-950 bg-[#FFFFFF] shadow-[2px_2px_5px_#c0c5cc] dark:shadow-[2px_2px_5px_#040f4c,-2px_-2px_5px_#040f4c]">
-                  <RxAvatar className="w-full h-full" />
-                </div>
-              )}
-            </div>
-
-            {!connected || !publicKey ? (
-              <button
-                onClick={handleConnect}
-                className="cursor-pointer px-3 py-2 rounded-xl bg-transparent border-2 border-yellow-400 text-yellow-400 ">
-                Connect
-              </button>
-            ) : (
-              <div className="flex justify-center gap-3 items-center w-full">
-                <span>{shortenAddressMob(publicKey.toBase58())}</span>
-              </div>
-            )}
-          </div>
-        </div>
+        </motion.div>
       )}
-    </motion.div>
+    </>
   );
+
+
 };
 
 export default Header;
