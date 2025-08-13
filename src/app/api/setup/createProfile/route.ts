@@ -8,7 +8,7 @@ import bs58 from "bs58";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import Token from "../../../lib/model/Token";
- import { createCharacterIfNotExists } from "../createCharacter/route";
+ import { createCharacterIfNotExists } from "../../../lib/model/updateCharacter";
 
 
 async function connectDB() {
