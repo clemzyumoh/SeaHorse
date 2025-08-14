@@ -115,11 +115,7 @@ export default function OnboardPage() {
   if (isLoading || isConnecting) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0B091A] text-white">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1 }}
-          className="w-8 h-8 border-4 border-t-yellow-400 border-yellow-400 rounded-full"
-        />
+      
         <span className="ml-4">
           {isConnecting ? (
             <div className="flex items-center justify-center h-screen ">
