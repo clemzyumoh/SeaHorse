@@ -108,6 +108,8 @@ const handlePayment = async () => {
         userPublicKey: wallet.publicKey.toString(),
         xp: selectedNFT.xpReward,
         nftAddress,
+        level: userProfile?.level,
+        badgeUrl: userProfile?.badges,
       }),
     });
 

@@ -219,6 +219,8 @@ export const useMissionActions = () => {
           level,
           badgeUrl: mission.badgeUrl,
           missionId: mission.missionAddress,
+          
+               nftAddress:userProfile?.nfts
         }),
       });
 
