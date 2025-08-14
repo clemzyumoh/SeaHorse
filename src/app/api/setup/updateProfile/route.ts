@@ -21,10 +21,13 @@ export async function POST(req: NextRequest) {
   await connectDB();
 
   try {
-    const { userPublicKey, xp, level, badgeUrl,  nftAddress } = await req.json();
+    const { userPublicKey, xp, level, badgeUrl, nftAddress } = await req.json();
 
     if (!userPublicKey || !xp) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     const tokenDoc = await Token.findOne();
@@ -33,7 +36,10 @@ export async function POST(req: NextRequest) {
     const adminKeypair = Keypair.fromSecretKey(bs58.decode(adminPrivateKey));
     const accessToken = token;
 
-    const client = createEdgeClient("https://edge.test.honeycombprotocol.com", true);
+    const client = createEdgeClient(
+      "https://edge.test.honeycombprotocol.com",
+      true
+    );
 
     const currentProfile = await client
       .findProfiles({
@@ -48,33 +54,43 @@ export async function POST(req: NextRequest) {
 
     const profileAddress = currentProfile.address;
     const currentCustomData = currentProfile.platformData.custom || {};
-    const currentBadges = currentCustomData.badges?.[0]?.split(",").filter(Boolean) || [];
-    //const completedMissions = currentCustomData.completedMissions?.[0]?.split(",").filter(Boolean) || [];
-    const updatedNfts = [...(currentCustomData.nfts?.[0]?.split("|").filter(Boolean) || [])];
+    // Retrieve all existing data points from the current profile
+    const existingXP = parseInt(currentCustomData.XP?.[0] || "0");
+    const existingLevel = currentCustomData.level?.[0]; // Get the existing level
+    const existingBadges =
+      currentCustomData.badges?.[0]?.split(",").filter(Boolean) || [];
+    const existingNfts =
+      currentCustomData.nfts?.[0]?.split("|").filter(Boolean) || [];
 
     const customAdd: [string, string][] = [];
 
-    // Always update XP
-    const newXP = (parseInt(currentCustomData.XP?.[0] || "0") + parseInt(xp)).toString();
+    // 1. Always update XP
+    const newXP = (existingXP + parseInt(xp)).toString();
     customAdd.push(["XP", newXP]);
 
-    // Update level only if provided
-   if (level !== undefined) {
-     customAdd.push(["level", level]);
-   }
-
-
+    // 2. Preserve or update the level
+    // Use the new level if provided, otherwise, retain the existing one
+    const finalLevel = level !== undefined ? level : existingLevel;
+    if (finalLevel !== undefined) {
+      customAdd.push(["level", finalLevel]);
+    }
     // Update badges and completed missions only if missionId & badgeUrl are provided and not already recorded
- 
-    if (badgeUrl && !currentBadges.includes(badgeUrl)) {
-      customAdd.push(["badges", [...currentBadges, badgeUrl].join(",")]);
+    // 3. Preserve and potentially add a new badge
+    const finalBadges = [...existingBadges];
+    if (badgeUrl && !existingBadges.includes(badgeUrl)) {
+      finalBadges.push(badgeUrl);
+    }
+    if (finalBadges.length > 0) {
+      customAdd.push(["badges", finalBadges.join(",")]);
     }
 
-
-    // Update NFTs only if provided and not already stored
-    if (nftAddress && !updatedNfts.includes(nftAddress)) {
-      updatedNfts.push(nftAddress);
-      customAdd.push(["nfts", updatedNfts.join("|")]);
+    // 4. Preserve and potentially add a new NFT
+    const finalNfts = [...existingNfts];
+    if (nftAddress && !existingNfts.includes(nftAddress)) {
+      finalNfts.push(nftAddress);
+    }
+    if (finalNfts.length > 0) {
+      customAdd.push(["nfts", finalNfts.join("|")]);
     }
 
     // Create transaction
@@ -109,7 +125,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       message: `Profile updated: XP ${newXP}${
         level !== undefined ? `, Level ${level}` : ""
-      }${badgeUrl && !currentBadges.includes(badgeUrl) ? `, Badge added` : ""}`,
+      }${badgeUrl && !existingBadges.includes(badgeUrl) ? `, Badge added` : ""}`,
       signature: response,
     });
   } catch (error) {
