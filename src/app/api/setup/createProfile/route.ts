@@ -46,7 +46,10 @@ export async function POST(req: NextRequest) {
     //     // After login or profile creation
       createCharacterIfNotExists({
     userPublicKey,
-    }); // Fire-and-forget (no await)
+      }); // Fire-and-forget (no await)
+    
+    
+    
     // Check for existing profile
     const profilesArray = await client
       .findProfiles({
@@ -102,12 +105,7 @@ export async function POST(req: NextRequest) {
       profileAddress = createNewUserWithProfileTransaction.transaction;
       console.log("Profile created:", createResponse);
 
-      // Initialize platformData
-      // const initResponse = await fetch("/api/setup/initPlatformData", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ userPublicKey }),
-      // });
+    
 const initResponse = await fetch(
   new URL("/api/setup/initPlatformData", req.url).toString(),
   {

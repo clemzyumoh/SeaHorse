@@ -5,6 +5,7 @@ import nacl from "tweetnacl";
 import createEdgeClient from "@honeycomb-protocol/edge-client";
 import Token from "../lib/model/Token";
 import mongoose from "mongoose";
+import cron from "node-cron";
 
 let refreshTimeout: NodeJS.Timeout;
 let isRefreshing = false;
@@ -106,4 +107,16 @@ export async function scheduleTokenRefresh() {
 // Run automatically on server start
 if (process.env.NODE_ENV === "production") {
   scheduleTokenRefresh().catch(console.error);
+}
+
+if (process.env.NODE_ENV === "production") {
+  cron.schedule(
+    "0 0 * * *",
+    () => {
+      refreshToken().catch(console.error);
+    },
+    {
+      timezone: "Africa/Lagos", // Nigerian time
+    }
+  );
 }

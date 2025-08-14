@@ -76,25 +76,7 @@ export default function LayoutWrapper({
     return null;
   }
 
-  // const ProtectedContent = () => {
-  
 
-  //   useEffect(() => {
-  //     if (isLoading) return; // Wait until context finishes loading
-  //     const isOnOnboardPage = pathname === "/onboard";
-
-  //     if (!userPublicKey || !isOnboarded) {
-  //       if (!isOnOnboardPage) router.push("/onboard");
-  //       return;
-  //     }
-
-  //     if (userPublicKey && isOnboarded && isOnOnboardPage) {
-  //       router.push("/");
-  //     }
-  //   }, [userPublicKey, isOnboarded, pathname, router, isLoading]);
-
-  //   return <>{children}</>;
-  // };
 
   const isAuth = pathname === "/onboard";
 

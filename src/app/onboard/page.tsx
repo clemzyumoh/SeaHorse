@@ -111,54 +111,50 @@ export default function OnboardPage() {
     setuserPublicKey,
   ]);
 
-  
+  // spinner
   if (isLoading || isConnecting) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#0B091A] text-white">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1 }}
-          className="w-8 h-8 border-4 border-t-yellow-400 border-gray-50 rounded-full"
+          className="w-8 h-8 border-4 border-t-yellow-400 border-yellow-400 rounded-full"
         />
         <span className="ml-4">
           {isConnecting ? (
-              <div className="flex items-center justify-center h-screen bg-[#0B091A] text-white">
-                    <div className="relative">
-                      <div className="w-46 h-46 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex items-end">
-                          <Image
-                            src="/assets/play1.png"
-                            alt="logo"
-                            width={48}
-                            height={48}
-                            className="object-cover"
-                          />
-                      
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-          )
-          :
-          (
-            <div className="flex items-center justify-center h-screen bg-[#0B091A] text-white">
-                  <div className="relative">
-                    <div className="w-46 h-46 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex items-end">
-                        <Image
-                          src="/assets/play1.png"
-                          alt="logo"
-                          width={48}
-                          height={48}
-                          className="object-cover"
-                        />
-                    
-                      </div>
-                    </div>
+            <div className="flex items-center justify-center h-screen ">
+              <div className="relative">
+                <div className="w-46 h-46 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-end">
+                    <Image
+                      src="/assets/play1.png"
+                      alt="logo"
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
                   </div>
                 </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-screen ">
+              <div className="relative">
+                <div className="w-46 h-46 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-end">
+                    <Image
+                      src="/assets/play1.png"
+                      alt="logo"
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </span>
       </div>
