@@ -5,7 +5,8 @@ import { sendTransactions } from "@honeycomb-protocol/edge-client/client/helpers
 import bs58 from "bs58";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
-import Token from "../../../lib/model/Token";
+//import Token from "../../../lib/model/Token";
+import { getHoneycombToken } from "@/app/lib/getHoneycombToken";
 
 async function connectDB() {
   if (mongoose.connection.readyState === 0) {
@@ -27,11 +28,13 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-const tokenDoc = await Token.findOne();
-    const token = tokenDoc?.value;
+// const tokenDoc = await Token.findOne();
+//     const token = tokenDoc?.value;
+      const token = await getHoneycombToken();
     const adminPrivateKey = process.env.ADMIN_PRIVATE_KEY || "";
     const adminKeypair = Keypair.fromSecretKey(bs58.decode(adminPrivateKey));
     const accessToken = token;
+    
    // const projectAddress = process.env.HONEYCOMB_PROJECT_ADDRESS!;
 
     const client = createEdgeClient(
