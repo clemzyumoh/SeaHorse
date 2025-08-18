@@ -6,7 +6,7 @@ export const NFT_DATA = [
     name: "Seahorse NFT",
     image: "/assets/play4.png",
     description: "Rare digital seahorse",
-    price: 3,
+    price: 1,
     currency: "SOL",
     requiredLevel: 1, // Add this
     xpReward: 500,
@@ -17,7 +17,7 @@ export const NFT_DATA = [
     name: "Golden Turtle",
     image: "/assets/play1.png",
     description: "Symbol of endurance",
-    price: 200,
+    price: 100,
     currency: "USDC",
     requiredLevel: 2, // Add this
     xpReward: 1000,
