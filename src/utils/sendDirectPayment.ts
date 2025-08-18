@@ -140,11 +140,9 @@ transaction.feePayer = sender;
 
   try {
    
-    const signedTx = await wallet.signTransaction(transaction);
-    const signature = await connection.sendRawTransaction(
-      signedTx.serialize(),
-      { skipPreflight: false }
-    );
+    const signature = await wallet.sendTransaction(transaction, connection);
+    
+
     console.log("signature", signature);
     toast.success("Payment successful!"); // ✅ Add this
     return { signature, blockhash, lastValidBlockHeight };

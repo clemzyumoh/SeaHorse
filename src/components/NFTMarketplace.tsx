@@ -32,7 +32,7 @@ export default function NFTMarketplace() {
  // const publicKey = useWallet();
 
   const { connection } = useConnection();
-  const { userProfile } = useProfiles(); // Add this
+  const { userProfile } = useProfiles(); 
  
   const { purchasedNFTs, setPurchasedNFTs } = usePurchasedNFTs();
  
