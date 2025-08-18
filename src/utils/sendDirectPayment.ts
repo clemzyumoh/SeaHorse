@@ -138,23 +138,14 @@ export const sendDirectPayment = async ({
   }
 
   try {
-// const { blockhash } = await connection.getLatestBlockhash();
-// transaction.recentBlockhash = blockhash;
-// transaction.feePayer = sender;
 
-//     const signature = await wallet.sendTransaction(transaction, connection);
  const { blockhash } = await connection.getLatestBlockhash();
  transaction.recentBlockhash = blockhash;
  transaction.feePayer = sender;
 
- // Let's explicitly have the wallet sign the feePayer part first
- const signedTx = await wallet.signTransaction(transaction);
+   const signature = await wallet.sendTransaction(transaction, connection);
 
- // Then send the fully-signed transaction
- const signature = await connection.sendRawTransaction(signedTx.serialize());
-
- // Wait for confirmation
- await connection.confirmTransaction(signature, "confirmed");
+   await connection.confirmTransaction(signature, "confirmed");
 
     console.log("signature", signature);
     toast.success("Payment successful!"); // ✅ Add this
