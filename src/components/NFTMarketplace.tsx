@@ -13,7 +13,10 @@ import { NFT } from "@/types/nft";
 import { useProfiles } from "@/hooks/useProfile";
 import { usePurchasedNFTs } from "@/hooks/usePurchasedNFTs";
 import { NFT_DATA } from "@/utils/nfts";
-
+import {
+ 
+  LAMPORTS_PER_SOL
+} from "@solana/web3.js";
 
 const nftList = NFT_DATA;
 
@@ -61,26 +64,33 @@ const handlePayment = async () => {
   const loadingToast = toast.loading("Processing transaction...");
   try {
     setShowModal(false);
-  
 
     // 1. Verify funds first
     const balance = await connection.getBalance(wallet.publicKey);
-    if (balance < selectedNFT.price * 1.1) {
+    const requiredLamports = selectedNFT.price * LAMPORTS_PER_SOL * 1.1;
+    if (balance < requiredLamports) {
       throw new Error("Insufficient funds");
     }
 
+
     // 2. Process payment and verify confirmation
     const recipient = process.env.NEXT_PUBLIC_NFT_RECEIVING_WALLET!;
-    const paymentSignature = await sendDirectPayment({
-      connection,
-      wallet,
-      recipient,
-      amount: selectedNFT.price,
-      token: selectedNFT.currency,
+  
+    const { signature, blockhash, lastValidBlockHeight } =
+      await sendDirectPayment({
+        connection,
+        wallet,
+        recipient,
+        amount: selectedNFT.price,
+        token: selectedNFT.currency,
+      });
+
+    const paymentStatus = await connection.confirmTransaction({
+      signature,
+      blockhash,
+      lastValidBlockHeight,
     });
 
-    // Verify payment is confirmed on-chain
-    const paymentStatus = await connection.confirmTransaction(paymentSignature);
     if (paymentStatus.value.err) {
       throw new Error("Payment failed to confirm on-chain");
     }
@@ -93,7 +103,7 @@ const handlePayment = async () => {
         playerWallet: wallet.publicKey.toString(),
         nftName: selectedNFT.name,
         nftMetadataUri: selectedNFT.url,
-        paymentSignature,
+        paymentSignature: signature,
       }),
     });
 
@@ -114,7 +124,6 @@ const handlePayment = async () => {
     });
 
     if (!updateResponse.ok) {
-    
       throw new Error(
         "Profile update failed - NFT was minted but not assigned"
       );

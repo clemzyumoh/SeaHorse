@@ -286,7 +286,7 @@ useEffect(() => {
         </div>
       </div>
       <p className="hidden lg:block text-white text-sm absolute bottom-2 left-1/2 -translate-x-1/2">
-      press play to start,  Use ↑ ↓ keys to move, Spacebar to shoot
+      press play to start,  Use ↑ ↓ keys to move, Spacebar to shoot, click on sidebar icon to collaspe sidebar
       </p>
     </main>
   );

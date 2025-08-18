@@ -51,7 +51,7 @@ export default function MissionPage() {
       id: 1,
       title: "Novice",
       description:
-        "Hunt mechanical  geared fish and gain XP to unlock the next level.",
+        "Hunt mechanical  geared fish for 150secs and gain 500XP to unlock the next level.",
       image: "/assets/Badge5.png",
       requiredXP: 0,
       level: "level1",
@@ -60,7 +60,7 @@ export default function MissionPage() {
       id: 2,
       title: "Seeker",
       description:
-        "Hunt mechanical  geared fish and gain 1000XP to unlock the next level.",
+        "Hunt mechanical  geared fish for 200secs  and gain 1000XP to unlock the next level.",
       image: "/assets/Badge4.png",
       requiredXP: 1000,
       level: "level2",

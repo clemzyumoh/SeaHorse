@@ -35,7 +35,7 @@ export async function GET(_req:NextRequest) {
       .findProfiles({
       
         projects: [projectAddress],
-        
+      
 
         includeProof: true,
       })

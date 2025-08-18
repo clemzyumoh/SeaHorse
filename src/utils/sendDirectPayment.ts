@@ -38,9 +38,12 @@ export const sendDirectPayment = async ({
   if (!wallet.publicKey) throw new Error("Wallet not connected");
   const sender = wallet.publicKey;
   const recipientPubkey = new PublicKey(recipient.trim());
-
+const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash(
+  "confirmed"
+);
   const transaction = new Transaction();
-
+transaction.recentBlockhash = blockhash;
+transaction.feePayer = sender;
   if (token === "SOL") {
     const lamports = amount * LAMPORTS_PER_SOL;
 
@@ -75,7 +78,7 @@ export const sendDirectPayment = async ({
     const USDC_MINT = new PublicKey(
       "EGcvNycAx1dkZUjm5GBgK5bj2sMNEK3cUhVwKLAXnyU9"
     );
-    const amountInSmallestUnit = amount * 10 ** 6;
+    const amountInSmallestUnit = Math.round(amount * 1e6);
 
     const senderTokenAccount = await getAssociatedTokenAddress(
       USDC_MINT,
@@ -136,17 +139,20 @@ export const sendDirectPayment = async ({
   }
 
   try {
-    const signature = await wallet.sendTransaction(transaction, connection);
-    await connection.confirmTransaction(signature, "confirmed");
+   
+    const signedTx = await wallet.signTransaction(transaction);
+    const signature = await connection.sendRawTransaction(
+      signedTx.serialize(),
+      { skipPreflight: false }
+    );
     console.log("signature", signature);
     toast.success("Payment successful!"); // ✅ Add this
+    return { signature, blockhash, lastValidBlockHeight };
 
-     return signature;
-
-    
+    // return signature;
   } catch (error) {
     toast.error("Payment failed!");
     console.log("err", error);
-
+  throw error; 
   }
 };
