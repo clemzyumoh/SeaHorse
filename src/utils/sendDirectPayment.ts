@@ -38,12 +38,10 @@ export const sendDirectPayment = async ({
   if (!wallet.publicKey) throw new Error("Wallet not connected");
   const sender = wallet.publicKey;
   const recipientPubkey = new PublicKey(recipient.trim());
-const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash(
-  "confirmed"
-);
+
   const transaction = new Transaction();
-transaction.recentBlockhash = blockhash;
-transaction.feePayer = sender;
+
+
   if (token === "SOL") {
     const lamports = amount * LAMPORTS_PER_SOL;
 
@@ -62,6 +60,7 @@ transaction.feePayer = sender;
     }
 
     transaction.add(transferIx);
+
 
     if (memo) {
       transaction.add(
@@ -139,18 +138,18 @@ transaction.feePayer = sender;
   }
 
   try {
-   
+
     const signature = await wallet.sendTransaction(transaction, connection);
-    
+
 
     console.log("signature", signature);
     toast.success("Payment successful!"); // ✅ Add this
-    return { signature, blockhash, lastValidBlockHeight };
+    return { signature };
 
     // return signature;
   } catch (error) {
     toast.error("Payment failed!");
     console.log("err", error);
-  throw error; 
+  throw error;
   }
 };
