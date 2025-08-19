@@ -5,20 +5,12 @@ import createEdgeClient from "@honeycomb-protocol/edge-client";
 import { sendTransactions } from "@honeycomb-protocol/edge-client/client/helpers";
 import bs58 from "bs58";
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
+
 //import Token from "../../../lib/model/Token";
 import { getHoneycombToken } from "@/app/lib/getHoneycombToken";
-async function connectDB() {
-  if (mongoose.connection.readyState === 0) {
-    await mongoose.connect(process.env.MONGO_URI || "", {
-      dbName: "SeaHorse",
-    });
-    console.log("MongoDB connected");
-  }
-}
 
 export async function POST(req: NextRequest) {
-  await connectDB();
+  
 
   try {
     const { userPublicKey, xp, level, badgeUrl, nftAddress } = await req.json();

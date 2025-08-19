@@ -1,7 +1,21 @@
 // lib/getHoneycombToken.ts
 import Token from "../lib/model/Token";
+import mongoose from "mongoose";
+
+
+async function connectDB() {
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(process.env.MONGO_URI || "", {
+      dbName: "SeaHorse",
+    });
+    console.log("MongoDB connected");
+  }
+}
+
 
 export async function getHoneycombToken() {
+  await connectDB();
+
   const latestToken = await Token.findOne().sort({ createdAt: -1 });
 
   if (!latestToken) {
