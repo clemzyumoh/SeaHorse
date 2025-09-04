@@ -9,6 +9,8 @@ import { useUser } from "@/context/UserContext";
 import { useWallet } from "@solana/wallet-adapter-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+
 
 const story = `The Chrome Depths
 In the Neon Ocean, a cybernetic abyss of glowing currents, mechanical fish geared anglerbots, whale hives, and elusive luck fish threaten the last seahorse clans. Forged by a rogue AI, these machines corrupt the ocean's balance. As a seahorse sharpshooter, you hunt these constructs, earning XP to evolve traits and restore the depths. Slay whale hives to summon drone fish allies, harness luck fish ammo boosts, and reclaim the Chrome Depths for your clan.`;
@@ -31,6 +33,7 @@ export default function OnboardPage() {
   const [isConnecting, setIsConnecting] = useState(false);
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const typingRef = useRef<NodeJS.Timeout | null>(null);
+const { setVisible } = useWalletModal();
 
   
   useEffect(() => {
@@ -68,19 +71,27 @@ export default function OnboardPage() {
       toast.error("No wallets available");
       return;
     }
-
-    try {
-      setIsConnecting(true);
-      const selectedWallet = wallet || wallets[0];
-      if (!wallet) await select(selectedWallet.adapter.name);
-      if (!connected) await connect();
-    } catch (err) {
-      console.error("Connection error:", err);
-      toast.error("Failed to connect wallet");
-      setIsConnecting(false);
-    }
+ setVisible(true);
+    // try {
+    //   setIsConnecting(true);
+    //   const selectedWallet = wallet || wallets[0];
+    //   if (!wallet) await select(selectedWallet.adapter.name);
+    //   if (!connected) await connect();
+    // } catch (err) {
+    //   console.error("Connection error:", err);
+    //   toast.error("Failed to connect wallet");
+    //   setIsConnecting(false);
+    // }
   };
-
+// useEffect(() => {
+//   if (wallet && connected) {
+//     // Wallet connected through modal, now do your onboarding
+//     const setupUser = async () => {
+//       // ... your existing setup code
+//     };
+//     setupUser();
+//   }
+// }, [wallet, connected]);
   
   useEffect(() => {
     const setupUser = async () => {
