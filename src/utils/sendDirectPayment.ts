@@ -143,8 +143,11 @@ export const sendDirectPayment = async ({
  transaction.recentBlockhash = blockhash;
  transaction.feePayer = sender;
 
-   const signature = await wallet.sendTransaction(transaction, connection);
-
+//   const signature = await wallet.sendTransaction(transaction, connection);
+const signedTransaction = await wallet.signTransaction(transaction);
+const signature = await connection.sendRawTransaction(
+  signedTransaction.serialize()
+);
    await connection.confirmTransaction(signature, "confirmed");
 
     console.log("signature", signature);
