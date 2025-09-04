@@ -43,10 +43,31 @@ To set up the project locally:
    ```
 
 3. Configure environment variables in a `.env` file:
-   - `RPC_URL`: Solana RPC endpoint (e.g., devnet).
-   - `WALLET_SECRET_KEY`: Secret key for the admin wallet (JSON array format).
-   - `ADMIN_SECRET_KEY`: Base58-encoded secret key for funding operations.
-   - `USDC_MINT_ADDRESS`: Public key of the USDC mint (devnet).
+ RPC_URL: Solana RPC endpoint (e.g., devnet).
+
+WALLET_SECRET_KEY: Secret key for the admin wallet (JSON array format).
+
+ADMIN_SECRET_KEY: Base58-encoded secret key for funding operations.
+
+ADMIN_PRIVATE_KEY: Base58-encoded private key for Honeycomb transactions.
+
+MONGO_URI: MongoDB connection string.
+
+NEXT_PUBLIC_BASE_URL: Base URL of the deployed app (e.g., Vercel).
+
+NEXT_PUBLIC_NFT_RECEIVING_WALLET: Wallet address to receive minted NFTs.
+
+USDC_MINT_ADDRESS: Public key of the USDC mint (devnet).
+
+HONEYCOMB_RESOURCE_ADDRESS: Honeycomb resource address.
+
+HONEYCOMB_CHARACTER_MODEL: Honeycomb character model address.
+
+HONEYCOMB_ASSEMBLER_CONFIG: Honeycomb assembler configuration address.
+
+HONEYCOMB_PROJECT_ADDRESS: Honeycomb project address.
+
+
 
 4. Run the development server:
    ```
