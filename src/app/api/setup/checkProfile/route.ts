@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     }
 
     await connectDB();
-    const profile = await Profile.findOne({ username }).lean();
+    const profile = (await Profile.findOne({ username }).lean()) as any;
     if (!profile) {
       return NextResponse.json({ isOnboarded: false });
     }
