@@ -236,7 +236,7 @@ useEffect(() => {
         onMouseDown={(e) => e.currentTarget.blur()}
         className="fixed top-0 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] z-20 left-0"
       />
-     
+
       <div className="fixed bottom-5 left-0 w-full flex justify-center z-20">
         <div className="flex gap-4">
           <div className="absolute bottom-0 left-10 flex lg:hidden flex-col gap-2 justify-center items-center">
@@ -246,7 +246,9 @@ useEffect(() => {
               // onTouchStart={(e) => getInputHandler()?.touchStart(e, "ArrowUp")}
               // onTouchEnd={(e) => getInputHandler()?.touchEnd(e, "ArrowUp")}
             >
-              <FaChevronCircleUp className="text-yellow-400" />
+              <FaChevronCircleUp
+                {...({ className: "text-yellow-400" } as any)}
+              />
             </div>
             <div
               ref={downRef}
@@ -256,24 +258,32 @@ useEffect(() => {
               // }
               // onTouchEnd={(e) => getInputHandler()?.touchEnd(e, "ArrowDown")}
             >
-              <FaChevronCircleDown className="text-yellow-400" />
+              <FaChevronCircleDown
+                {...({ className: "text-yellow-400" } as any)}
+              />
             </div>
           </div>
           <div className="absolute bottom-5 flex justify-center items-center left-1/2 -translate-x-1/2 gap-4">
             <button
               onClick={handlePlay}
               className="flex items-center justify-center rounded-full w-12 h-12 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] px-4 py-2 ">
-              <FaCirclePlay className="text-yellow-400 text-2xl" />
+              <FaCirclePlay
+                {...({ className: "text-yellow-400 text-2xl" } as any)}
+              />
             </button>
             <button
               onClick={handlePause}
               className="flex items-center justify-center rounded-full w-12 h-12 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] px-4 py-2 text-yellow-400">
-              <IoPauseCircleSharp className="text-yellow-400" />
+              <IoPauseCircleSharp
+                {...({ className: "text-yellow-400" } as any)}
+              />
             </button>
             <button
               onClick={handleRestart}
               className="flex items-center justify-center rounded-full w-12 h-12 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] px-4 py-2 text-white">
-              <MdOutlineReplayCircleFilled className="text-yellow-400" />
+              <MdOutlineReplayCircleFilled
+                {...({ className: "text-yellow-400" } as any)}
+              />
             </button>
           </div>
           <div
@@ -281,12 +291,14 @@ useEffect(() => {
             className="absolute bottom-2 right-10 lg:hidden w-20 h-20 shadow-[2px_2px_2px_#040f4c,-2px_-2px_2px_#040f4c] rounded-full font-bold flex items-center justify-center active:scale-110 transition"
             // onTouchStart={(e) => getInputHandler()?.touchShoot(e)}
           >
-            <GiTargetShot className="text-3xl text-yellow-400" />
+        
+            <GiTargetShot {...({ className: "text-yellow-400 text-3xl" } as any)} />
           </div>
         </div>
       </div>
       <p className="hidden lg:block text-white text-sm absolute bottom-2 left-1/2 -translate-x-1/2">
-      press play to start,  Use ↑ ↓ keys to move, Spacebar to shoot, click on sidebar icon to collaspe sidebar
+        press play to start, Use ↑ ↓ keys to move, Spacebar to shoot, click on
+        sidebar icon to collaspe sidebar
       </p>
     </main>
   );
