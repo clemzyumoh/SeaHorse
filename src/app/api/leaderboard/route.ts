@@ -1,49 +1,17 @@
+﻿import { NextResponse } from "next/server";
+import Profile from "@/app/lib/model/Profile";
+import { connectDB } from "@/app/lib/db";
 
-
-
-
-import { createEdgeClient } from "@honeycomb-protocol/edge-client"; // Adjust import based on your setup
-import { NextRequest, NextResponse } from "next/server";
-
-
-
-export async function GET(req:NextRequest) {
+export async function GET() {
   try {
-    const rpcUrl = "https://edge.test.honeycombprotocol.com";
-  
-    const client = createEdgeClient(rpcUrl, true);
-
-    const projectAddress = process.env.HONEYCOMB_PROJECT_ADDRESS!;
-    
-
-    
-    const profilesArray = await client
-      .findProfiles({
-    
-        projects: [projectAddress],
-      
-
-        includeProof: true, 
-      })
-      .then(({ profile }) => profile); 
-
-    const profilearry = profilesArray;
-
-   
-    
-
-    return NextResponse.json({
-      profilearry,
-    });
+    await connectDB();
+    const profiles = await Profile.find().sort({ xp: -1 }).lean();
+    return NextResponse.json({ profiles });
   } catch (error) {
-    console.error("Error fetching configurations:", error);
+    console.error("Leaderboard error:", error);
     return NextResponse.json(
-      {
-        error: "Failed to fetch configurations",
-        details: error,
-      },
+      { error: "Failed to fetch leaderboard" },
       { status: 500 }
     );
   }
 }
-

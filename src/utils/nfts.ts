@@ -7,8 +7,8 @@ export const NFT_DATA = [
     image: "/assets/play4.png",
     description: "Rare digital seahorse",
     price: 1,
-    currency: "SOL",
-    requiredLevel: 1, // Add this
+    currency: "CREDITS",
+    requiredLevel: 1,
     xpReward: 500,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754278702/play_kzhprt.png",
   },
@@ -18,8 +18,8 @@ export const NFT_DATA = [
     image: "/assets/play1.png",
     description: "Symbol of endurance",
     price: 100,
-    currency: "USDC",
-    requiredLevel: 2, // Add this
+    currency: "CREDITS",
+    requiredLevel: 2,
     xpReward: 1000,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754876135/play1_u8yrz2.png",
   },
@@ -31,8 +31,8 @@ export const NFT_DATA = [
 
     description: "Rare digital seahorse",
     price: 10,
-    currency: "SOL",
-    requiredLevel: 3, // Add this
+    currency: "CREDITS",
+    requiredLevel: 3,
     xpReward: 3000,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754278702/play_kzhprt.png",
   },
@@ -43,8 +43,8 @@ export const NFT_DATA = [
     xpReward: 5000,
     description: "Symbol of endurance",
     price: 1000,
-    currency: "USDC",
-    requiredLevel: 4, // Add this
+    currency: "CREDITS",
+    requiredLevel: 4,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754876135/play1_u8yrz2.png",
   },
   {
@@ -53,8 +53,8 @@ export const NFT_DATA = [
     image: "/assets/play4.png",
     description: "Rare digital seahorse",
     price: 30,
-    currency: "SOL",
-    requiredLevel: 5, // Add this
+    currency: "CREDITS",
+    requiredLevel: 5,
     xpReward: 7000,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754278702/play_kzhprt.png",
   },
@@ -64,8 +64,8 @@ export const NFT_DATA = [
     image: "/assets/play1.png",
     description: "Symbol of endurance",
     price: 2000,
-    currency: "USDC",
-    requiredLevel: 5, // Add this
+    currency: "CREDITS",
+    requiredLevel: 5,
     xpReward: 10000,
     url: "https://res.cloudinary.com/dwm4ss8cg/image/upload/v1754876135/play1_u8yrz2.png",
   },

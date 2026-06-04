@@ -1,22 +1,14 @@
-
-
-"use client";
-import { useState, useEffect } from "react";
+﻿"use client";
+import { useEffect, useState } from "react";
 import NFTCard from "./NFTCard";
 import NFTBuyModal from "./NFTBuyModal";
-import { sendDirectPayment } from "@/utils/sendDirectPayment";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useConnection } from "@solana/wallet-adapter-react";
-
 import toast from "react-hot-toast";
 import { NFT } from "@/types/nft";
 import { useProfiles } from "@/hooks/useProfile";
 import { usePurchasedNFTs } from "@/hooks/usePurchasedNFTs";
 import { NFT_DATA } from "@/utils/nfts";
-import { useWalletBalance } from "@/hooks/useWalletBalance";
 
 const nftList = NFT_DATA;
-
 
 const parseProfileLevel = (level: string): number => {
   return parseInt(level.replace("level", "")) || 1;
@@ -25,15 +17,9 @@ const parseProfileLevel = (level: string): number => {
 export default function NFTMarketplace() {
   const [selectedNFT, setSelectedNFT] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
-  const wallet = useWallet();
-  // const publicKey = useWallet();
-const { solBalance, usdcBalance } = useWalletBalance();
-  const { connection } = useConnection();
   const { userProfile } = useProfiles();
-
   const { purchasedNFTs, setPurchasedNFTs } = usePurchasedNFTs();
 
-  // Add this useEffect with other effects
   useEffect(() => {
     localStorage.setItem("purchasedNFTs", JSON.stringify(purchasedNFTs));
   }, [purchasedNFTs]);
@@ -49,97 +35,43 @@ const { solBalance, usdcBalance } = useWalletBalance();
     setShowModal(true);
   };
 
-const checkFunds = (selectedNFT: { price: number; currency: string }) => {
-  if (selectedNFT.currency === "SOL") {
-    if (solBalance < selectedNFT.price) {
-      throw new Error("Insufficient SOL balance");
-    }
-  } else if (selectedNFT.currency === "USDC") {
-    if (usdcBalance < selectedNFT.price) {
-      throw new Error("Insufficient USDC balance");
-    }
-  }
-};
   const handlePayment = async () => {
+    if (!selectedNFT) {
+      return;
+    }
+
     if (purchasedNFTs.includes(selectedNFT.id)) {
-      return toast.error("Already purchased this NFT!");
+      return toast.error("Already purchased this item!");
     }
-    if (!wallet.publicKey || !selectedNFT) {
-      return toast.error("Wallet not connected");
+
+    if (!userProfile) {
+      return toast.error("Please login to purchase");
     }
-    const loadingToast = toast.loading("Processing transaction...");
+
+    const loadingToast = toast.loading("Processing purchase...");
     try {
-      setShowModal(false);
-
-   
-
-    await checkFunds(selectedNFT);
-
-      // 2. Process payment and verify confirmation
-      const recipient = process.env.NEXT_PUBLIC_NFT_RECEIVING_WALLET!;
-
-      const { signature } = await sendDirectPayment({
-        connection,
-        wallet,
-        recipient,
-        amount: selectedNFT.price,
-        token: selectedNFT.currency,
-      });
-
-      const paymentStatus = await connection.confirmTransaction(
-        signature,
-        "confirmed"
-      );
-      if (paymentStatus.value.err) {
-        throw new Error("Payment failed to confirm on-chain");
-      }
-
-      // 3. Only proceed if payment succeeded
-      const mintResponse = await fetch("/api/mint-nft", {
+      const response = await fetch("/api/setup/updateProfile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          playerWallet: wallet.publicKey.toString(),
-          nftName: selectedNFT.name,
-          nftMetadataUri: selectedNFT.url,
-          paymentSignature: signature,
+          username: userProfile.username,
+          xp: selectedNFT.xpReward || 0,
+          nftAddress: selectedNFT.id,
         }),
       });
 
-      const { nftAddress } = await mintResponse.json();
-      if (!nftAddress) throw new Error("NFT minting failed");
-
-      // 4. Update profile
-      const updateResponse = await fetch("/api/setup/updateProfile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userPublicKey: wallet.publicKey.toString(),
-          xp: selectedNFT.xpReward,
-          nftAddress,
-          level: userProfile?.level,
-          badgeUrl: userProfile?.badges,
-        }),
-      });
-
-      if (!updateResponse.ok) {
-        throw new Error(
-          "Profile update failed - NFT was minted but not assigned"
-        );
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Purchase failed");
       }
 
-      // 5. Finalize only if all steps succeeded
       setPurchasedNFTs([...purchasedNFTs, selectedNFT.id]);
+      toast.success("Item purchased successfully!");
+    } catch (err: any) {
+      toast.error(err.message || "Purchase failed");
+    } finally {
       toast.dismiss(loadingToast);
-      toast.success("NFT purchased successfully!");
-    } catch (err) {
-      toast.dismiss(loadingToast);
-      toast.error(
-        `Transaction failed: ${
-          err instanceof Error ? err.message : "Unknown error"
-        }`
-      );
-      console.error(err);
+      setShowModal(false);
     }
   };
 

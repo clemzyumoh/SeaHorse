@@ -1,3 +1,0 @@
-
-
-export const SOLAPAY_NFT_RECEIVING_WALLET = "SEAHORSE CLAN";

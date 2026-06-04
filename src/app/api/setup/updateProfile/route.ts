@@ -1,130 +1,85 @@
-
-// api/setup/updateProfile.ts
-import { Keypair } from "@solana/web3.js";
-import createEdgeClient from "@honeycomb-protocol/edge-client";
-import { sendTransactions } from "@honeycomb-protocol/edge-client/client/helpers";
-import bs58 from "bs58";
-import { NextRequest, NextResponse } from "next/server";
-
-//import Token from "../../../lib/model/Token";
-import { getHoneycombToken } from "@/app/lib/getHoneycombToken";
+﻿import { NextRequest, NextResponse } from "next/server";
+import Profile from "@/app/lib/model/Profile";
+import { connectDB } from "@/app/lib/db";
 
 export async function POST(req: NextRequest) {
-  
-
   try {
-    const { userPublicKey, xp, level, badgeUrl, nftAddress } = await req.json();
+    const {
+      username,
+      xp,
+      level,
+      badgeUrl,
+      nftAddress,
+      gold,
+      gems,
+    } = await req.json();
 
-    if (!userPublicKey || !xp) {
+    if (!username || typeof username !== "string") {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Username is required" },
         { status: 400 }
       );
     }
 
-    // const tokenDoc = await Token.findOne();
-    // const token = tokenDoc?.value;
-      const token = await getHoneycombToken();
-    const adminPrivateKey = process.env.ADMIN_PRIVATE_KEY || "";
-    const adminKeypair = Keypair.fromSecretKey(bs58.decode(adminPrivateKey));
-    const accessToken = token;
+    await connectDB();
 
-    const client = createEdgeClient(
-      "https://edge.test.honeycombprotocol.com",
-      true
-    );
-
-    const currentProfile = await client
-      .findProfiles({
-        identities: [userPublicKey],
-        includeProof: true,
-      })
-      .then(({ profile }) => profile[0]);
-
-    if (!currentProfile) {
+    const profile = await Profile.findOne({ username });
+    if (!profile) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    const profileAddress = currentProfile.address;
-    const currentCustomData = currentProfile.platformData.custom || {};
-    // Retrieve all existing data points from the current profile
-    const existingXP = parseInt(currentCustomData.XP?.[0] || "0");
-    const existingLevel = currentCustomData.level?.[0]; // Get the existing level
-    const existingBadges =
-      currentCustomData.badges?.[0]?.split(",").filter(Boolean) || [];
-    const existingNfts =
-      currentCustomData.nfts?.[0]?.split("|").filter(Boolean) || [];
-
-    const customAdd: [string, string][] = [];
-
-    // 1. Always update XP
-    const newXP = (existingXP + parseInt(xp)).toString();
-    customAdd.push(["XP", newXP]);
-
-    // 2. Preserve or update the level
-    // Use the new level if provided, otherwise, retain the existing one
-    const finalLevel = level !== undefined ? level : existingLevel;
-    if (finalLevel !== undefined) {
-      customAdd.push(["level", finalLevel]);
-    }
-    // Update badges and completed missions only if missionId & badgeUrl are provided and not already recorded
-    // 3. Preserve and potentially add a new badge
-    const finalBadges = [...existingBadges];
-    if (badgeUrl && !existingBadges.includes(badgeUrl)) {
-      finalBadges.push(badgeUrl);
-    }
-    if (finalBadges.length > 0) {
-      customAdd.push(["badges", finalBadges.join(",")]);
+    if (typeof xp === "number") {
+      profile.xp += xp;
+    } else if (typeof xp === "string" && xp.trim() !== "") {
+      profile.xp += parseInt(xp, 10) || 0;
     }
 
-    // 4. Preserve and potentially add a new NFT
-    const finalNfts = [...existingNfts];
-    if (nftAddress && !existingNfts.includes(nftAddress)) {
-      finalNfts.push(nftAddress);
-    }
-    if (finalNfts.length > 0) {
-      customAdd.push(["nfts", finalNfts.join("|")]);
+    if (level && typeof level === "string") {
+      profile.level = level;
     }
 
-    // Create transaction
-    const { createUpdatePlatformDataTransaction: profileTx } =
-      await client.createUpdatePlatformDataTransaction(
-        {
-          profile: profileAddress,
-          authority: adminKeypair.publicKey.toString(),
-          platformData: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (badgeUrl && typeof badgeUrl === "string") {
+      if (!profile.badges.includes(badgeUrl)) {
+        profile.badges.push(badgeUrl);
+      }
+    }
 
-            addXp: parseInt(xp) as any,
-            custom: { add: customAdd },
-          },
-        },
-        {
-          fetchOptions: { headers: { authorization: `Bearer ${accessToken}` } },
-        }
-      );
+    if (nftAddress && typeof nftAddress === "string") {
+      if (!profile.nfts.includes(nftAddress)) {
+        profile.nfts.push(nftAddress);
+      }
+    }
 
-    // Send transaction
-    const response = await sendTransactions(
-      client,
-      {
-        transactions: [profileTx.transaction],
-        blockhash: profileTx.blockhash,
-        lastValidBlockHeight: profileTx.lastValidBlockHeight,
-      },
-      [adminKeypair]
-    );
+    if (typeof gold === "number") {
+      profile.gold += gold;
+    } else if (typeof gold === "string" && gold.trim() !== "") {
+      profile.gold += parseInt(gold, 10) || 0;
+    }
+
+    if (typeof gems === "number") {
+      profile.gems += gems;
+    } else if (typeof gems === "string" && gems.trim() !== "") {
+      profile.gems += parseInt(gems, 10) || 0;
+    }
+
+    await profile.save();
 
     return NextResponse.json({
-      message: `Profile updated: XP ${newXP}${
-        level !== undefined ? `, Level ${level}` : ""
-      }${badgeUrl && !existingBadges.includes(badgeUrl) ? `, Badge added` : ""}`,
-      signature: response,
+      message: "Profile updated",
+      profile: {
+        username: profile.username,
+        xp: profile.xp,
+        level: profile.level,
+        badges: profile.badges,
+        nfts: profile.nfts,
+        gold: profile.gold,
+        gems: profile.gems,
+      },
     });
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("Update profile error:", error);
     return NextResponse.json(
-      { error: "Failed to update profile", details: error instanceof Error ? error.message : String(error) },
+      { error: "Failed to update profile" },
       { status: 500 }
     );
   }

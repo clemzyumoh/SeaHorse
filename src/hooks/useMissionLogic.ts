@@ -8,6 +8,7 @@
 "use client"
 import { useEffect } from "react";
 import { useMissionActions } from "@/hooks/useMissionActions";
+import { useProfiles } from "@/hooks/useProfile";
 import toast from "react-hot-toast";
 import { levelConfigs } from "../types/level"; 
 import Game from "@/components/Game/Novice/Classes/Game";
@@ -23,6 +24,7 @@ export const useMissionLogic = (
   handlePause?: () => void
 ) => {
   const { completeLevel } = useMissionActions();
+  const { refetch } = useProfiles();
 
   useEffect(() => {
    // console.log("Current game instance:", game); // Debug
@@ -54,6 +56,8 @@ export const useMissionLogic = (
             toast.success(`Level ${level} completed! +${game.score} XP`, {
               duration: 5000, // 5 seconds
             });
+            // Refetch profile to update header immediately
+            refetch();
 
             // toast.success(`Next level unlocked`, {
             //   duration: 5000,
@@ -89,5 +93,6 @@ export const useMissionLogic = (
     characterAddress,
     completeLevel,
     handlePause,
+    refetch,
   ]);
 };

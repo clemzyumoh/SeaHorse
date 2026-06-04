@@ -1,17 +1,6 @@
 
 import Image from "next/image";
-
-type NFT = {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  currency: "SOL" | "USDC";
-  requiredLevel?: number;
-  xpReward: number;
-  purchased: boolean; // Add this new prop
-};
+import { NFT } from "@/types/nft";
 
 const getLevelBadge = (level?: number) => {
   if (!level) return "/asset/badge5.png";

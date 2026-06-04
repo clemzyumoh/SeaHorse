@@ -1,16 +1,7 @@
 
 
 import Image from "next/image";
-import { SOLAPAY_NFT_RECEIVING_WALLET } from "@/utils/constants";
-
-type NFT = {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  currency: "SOL" | "USDC";
-};
+import { NFT } from "@/types/nft";
 
 export default function NFTBuyModal({
   nft,
@@ -39,11 +30,8 @@ export default function NFTBuyModal({
         <p className="my-3">
           Price: {nft.price} {nft.currency}
         </p>
-        <p className="text-sm">
-          Send payment to:{" "}
-          <span className="text-yellow-400 break-words">
-            {SOLAPAY_NFT_RECEIVING_WALLET}
-          </span>
+        <p className="text-sm text-gray-300">
+          This is a game purchase. Your item will be added to your inventory after confirmation.
         </p>
         <div className="flex items-center w-full gap-4 mt-6">
           <button

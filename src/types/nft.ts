@@ -5,9 +5,8 @@ export type NFT = {
   image: string;
   description: string;
   price: number;
-  currency: "SOL" | "USDC";
-  requiredLevel?: number; // Make it optional
-  xpReward: number; // Add this
-purchased:boolean
-
+  currency: string;
+  requiredLevel?: number;
+  xpReward: number;
+  purchased: boolean;
 };
